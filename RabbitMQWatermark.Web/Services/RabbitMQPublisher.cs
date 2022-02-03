@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,9 @@ namespace RabbitMQWatermark.Web.Services
             var bodyByte = Encoding.UTF8.GetBytes(bodyString);
 
             var properties = channel.CreateBasicProperties();
-            properties.Persistent = true;
+            properties.Persistent = true; //Fiziksel olarak kaydetmek için.
+
+            channel.BasicPublish(RabbitMQClientService.ExchangeName, RabbitMQClientService.RountingWatermark,properties,bodyByte);
         }
     }
 }
